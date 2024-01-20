@@ -138,13 +138,13 @@ contract BorrowFund is
             uint256 healthFactor
         ) = IAavePool(_aavePool).getUserAccountData(address(this));
 
-        uint256 minimumLeverage = (100 /
+        uint256 minimumLeverage = ((100 * 1e18) /
             (10000 - currentLiquidationThreshold)) *
             undecollateralRiskParameter;
 
         require(
-            minimumLeverage >= leverageNeed,
-            "BorrowFund: leverage too big"
+            minimumLeverage <= leverageNeed * 1e18,
+            "BorrowFund: leverage too small"
         );
 
         address[] memory addr = new address[](2);
@@ -154,8 +154,8 @@ contract BorrowFund is
 
         uint256[] memory prices = _oracle.getAssetsPrices(addr);
 
-        uint256 supplyForLeveragePositionToken = ((leverageAmountNeeded / ltv) *
-            10000) / prices[0];
+        uint256 supplyForLeveragePositionToken = ((leverageAmountNeeded *
+            10000) / ltv) / prices[0];
 
         gateway.depositETH{value: supplyForLeveragePositionToken}(
             _aavePool,

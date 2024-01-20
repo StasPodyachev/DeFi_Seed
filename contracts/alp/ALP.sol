@@ -9,6 +9,7 @@ import "./../interfaces/IAlpDeployer.sol";
 import "./../interfaces/IFactory.sol";
 import "./../interfaces/IAlp.sol";
 import "./../interfaces/IExtraProtocol.sol";
+import "./../interfaces/IBorrowFund.sol";
 
 import "./AlpToken.sol";
 import "./../resolver/MixinResolver.sol";
@@ -28,6 +29,7 @@ import "hardhat/console.sol";
  */
 contract ALP is AlpToken, IAlp, MixinResolver {
     bytes32 private constant D4X_CONTRACT = "D4X";
+    bytes32 private constant BORROW_FUND_CONTRACT = "BorrowFund";
     bytes32 private constant EXTRA_PROTOCOL_CONTRACT = "ExtraProtocol";
 
     uint256 internal constant PERCENT_DECIMALS = 1e10;
@@ -35,6 +37,7 @@ contract ALP is AlpToken, IAlp, MixinResolver {
     address public immutable _factory;
     address public immutable _token;
     address public _d4x;
+    address public _borrowFund;
 
     uint256 public _positionBalances;
 
@@ -153,6 +156,7 @@ contract ALP is AlpToken, IAlp, MixinResolver {
             requireAndGetAddress(EXTRA_PROTOCOL_CONTRACT)
         );
         _d4x = requireAndGetAddress(D4X_CONTRACT);
+        _borrowFund = getAddress(BORROW_FUND_CONTRACT);
     }
 
     function getBaseToken() external view returns (address) {
@@ -203,7 +207,17 @@ contract ALP is AlpToken, IAlp, MixinResolver {
         leverageAv = leverage - 1;
         leverageAmount = amount * leverageAv;
 
-        if (balance < leverageAmount) revert InsufficientFunds();
+        if (balance < leverageAmount) {
+            if (_borrowFund != address(0)) {
+                IBorrowFund(_borrowFund).borrow(
+                    leverageAmount,
+                    leverage,
+                    _token
+                );
+            }
+
+            revert InsufficientFunds();
+        }
 
         traderLeverageAmounts[trader] += leverageAmount;
 
@@ -245,7 +259,8 @@ contract ALP is AlpToken, IAlp, MixinResolver {
     function returnReserve(
         uint256 leverageAmount,
         uint256 alpAmount,
-        address trader
+        address trader,
+        uint256 positionId
     ) external whenNotPaused {
         TransferHelper.safeTransferFrom(
             _token,
@@ -253,6 +268,11 @@ contract ALP is AlpToken, IAlp, MixinResolver {
             address(this),
             alpAmount
         );
+
+        if (IBorrowFund(_borrowFund).checkBorrowed(positionId)) {
+            IBorrowFund(_borrowFund).repay(positionId);
+            return;
+        }
 
         _positionBalances -= leverageAmount;
         traderLeverageAmounts[trader] -= leverageAmount;
