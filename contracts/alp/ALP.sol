@@ -54,8 +54,8 @@ contract ALP is AlpToken, IAlp, MixinResolver {
     mapping(address => uint256) public deposits;
 
     uint256 public _limitMaxDeposit = type(uint256).max;
-    uint256 public _limitMaxFreeAlpPercent = 25e8;
-    uint256 public _limitMaxTotalAlpPercent = 1e9;
+    uint256 public _limitMaxFreeAlpPercent = 1e10;
+    uint256 public _limitMaxTotalAlpPercent = 1e10;
     uint256 public _limitMaxLeverageAmount = type(uint256).max;
     uint256 public _timePositionLimit = 30 days;
 
@@ -207,18 +207,6 @@ contract ALP is AlpToken, IAlp, MixinResolver {
         leverageAv = leverage - 1;
         leverageAmount = amount * leverageAv;
 
-        if (balance < leverageAmount) {
-            if (_borrowFund != address(0)) {
-                IBorrowFund(_borrowFund).borrow(
-                    leverageAmount,
-                    leverage,
-                    _token
-                );
-            }
-
-            revert InsufficientFunds();
-        }
-
         traderLeverageAmounts[trader] += leverageAmount;
 
         uint256 currentTraderAmount = traderLeverageAmounts[trader] *
@@ -239,6 +227,18 @@ contract ALP is AlpToken, IAlp, MixinResolver {
                 (balance + _positionBalances) * _limitMaxTotalAlpPercent,
             "ALP: limitMaxTotalAlpPercent"
         );
+
+        if (balance < leverageAmount) {
+            if (_borrowFund != address(0)) {
+                IBorrowFund(_borrowFund).borrow(
+                    leverageAmount,
+                    leverage,
+                    _token
+                );
+            }
+
+            revert InsufficientFunds();
+        }
 
         _extraProtocol.withdraw(leverageAmount, _token, msg.sender);
         _positionBalances += leverageAmount;
