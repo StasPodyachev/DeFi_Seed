@@ -237,7 +237,9 @@ contract ALP is AlpToken, IAlp, MixinResolver {
                 );
             }
 
-            revert InsufficientFunds();
+            return (leverageAmount, leverageAv);
+
+            // revert InsufficientFunds();
         }
 
         _extraProtocol.withdraw(leverageAmount, _token, msg.sender);
@@ -270,7 +272,13 @@ contract ALP is AlpToken, IAlp, MixinResolver {
         );
 
         if (IBorrowFund(_borrowFund).checkBorrowed(positionId)) {
-            IBorrowFund(_borrowFund).repay(positionId);
+            TransferHelper.safeTransfer(
+                _token,
+                address(_borrowFund),
+                alpAmount
+            );
+
+            IBorrowFund(_borrowFund).repay(positionId, alpAmount);
             return;
         }
 

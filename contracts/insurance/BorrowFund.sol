@@ -4,61 +4,21 @@ pragma abicoder v2;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import {IAavePool} from "./../interfaces/IAavePool.sol";
 
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 
-import "./CreditSystem.sol";
+import {IAavePool} from "./../interfaces/IAavePool.sol";
 
 import "./../interfaces/IInsuranceFund.sol";
 import "./../interfaces/IBorrowFund.sol";
+import "./../interfaces/IAaveOracle.sol";
+import "./../interfaces/IWrappedTokenGatewayV3.sol";
 import "./../interfaces/ID4X.sol";
 
 import "./../resolver/MixinResolver.sol";
-
-interface IWrappedTokenGatewayV3 {
-    function depositETH(
-        address pool,
-        address onBehalfOf,
-        uint16 referralCode
-    ) external payable;
-
-    function withdrawETH(
-        address pool,
-        uint256 amount,
-        address onBehalfOf
-    ) external;
-
-    function repayETH(
-        address pool,
-        uint256 amount,
-        uint256 rateMode,
-        address onBehalfOf
-    ) external payable;
-
-    function borrowETH(
-        address pool,
-        uint256 amount,
-        uint256 interestRateMode,
-        uint16 referralCode
-    ) external;
-
-    function withdrawETHWithPermit(
-        address pool,
-        uint256 amount,
-        address to,
-        uint256 deadline,
-        uint8 permitV,
-        bytes32 permitR,
-        bytes32 permitS
-    ) external;
-}
-
-interface IAaveOracle {
-    function getAssetsPrices(
-        address[] calldata assets
-    ) external view returns (uint256[] memory);
-}
+import "./../interfaces/IFactory.sol";
+import "./../security/Pausable.sol";
+import "./../WithdrawForce.sol";
 
 /**
  * @title D4X Insurance Fund
@@ -76,16 +36,18 @@ contract BorrowFund is
     Pausable,
     WithdrawForce
 {
+    bytes32 private constant FACTORY_CONTRACT = "Factory";
     bytes32 private constant D4X_CONTRACT = "D4X";
 
-    address public _aavePool;
-    uint256 public undecollateralRiskParameter;
+    uint256 public undecollateralRiskParameter = 150;
 
     address public _weth;
 
-    IWrappedTokenGatewayV3 public gateway;
+    IAavePool public _aavePool;
+    IWrappedTokenGatewayV3 public _gateway;
     ID4X public _d4x;
     IAaveOracle public _oracle;
+    IFactory public _factory;
 
     struct BorrowData {
         address asset;
@@ -95,30 +57,33 @@ contract BorrowFund is
 
     mapping(uint256 => BorrowData) public borrowsData;
 
-    constructor(address resolver) MixinResolver(resolver) {}
-
-    /**
-     * @param pool Address from Deployments https://docs.aave.com/developers/
-     * deployed-contracts/v3-testnet-addresses or https://docs.aave.com/
-     * developers/deployed-contracts/v3-mainnet
-     */
-    function setAavePool(address pool) external onlyOwner whenNotPaused {
-        if (pool == _aavePool) revert SameValue();
-
-        emit AavePoolUpdated(_aavePool, pool);
-
-        _aavePool = pool;
+    constructor(address resolver, address weth) MixinResolver(resolver) {
+        _weth = weth;
     }
 
-    function setOracle(address addr) external {
+    function setAavePool(address addr) external onlyOwner whenNotPaused {
+        if (address(_aavePool) == addr) revert SameValue();
+
+        _aavePool = IAavePool(addr);
+    }
+
+    function setOracle(address addr) external onlyOwner whenNotPaused {
+        if (address(_oracle) == addr) revert SameValue();
+
         _oracle = IAaveOracle(addr);
     }
 
-    function setWrappedTokenGatewayV3(address value) external {
-        gateway = IWrappedTokenGatewayV3(value);
+    function setWrappedTokenGatewayV3(
+        address addr
+    ) external onlyOwner whenNotPaused {
+        if (address(_gateway) == addr) revert SameValue();
+
+        _gateway = IWrappedTokenGatewayV3(addr);
     }
 
-    function setUndecollateralRiskParameter(uint256 value) external {
+    function setUndecollateralRiskParameter(
+        uint256 value
+    ) external onlyOwner whenNotPaused {
         undecollateralRiskParameter = value;
     }
 
@@ -127,16 +92,14 @@ contract BorrowFund is
         uint256 leverageNeed,
         address borrowToken
     ) external {
-        // TODO: only alps
+        if (msg.sender != _factory.getAlp(borrowToken))
+            revert WrongCaller(msg.sender);
 
-        (
-            uint256 totalCollateralBase,
-            uint256 totalDebtBase,
-            uint256 availableBorrowsBase,
-            uint256 currentLiquidationThreshold,
-            uint256 ltv,
-            uint256 healthFactor
-        ) = IAavePool(_aavePool).getUserAccountData(address(this));
+        require(borrowToken != _weth, "BorrowFund: Only GHO token");
+
+        (, , , uint256 currentLiquidationThreshold, uint256 ltv, ) = IAavePool(
+            _aavePool
+        ).getUserAccountData(address(this));
 
         uint256 minimumLeverage = ((100 * 1e18) /
             (10000 - currentLiquidationThreshold)) *
@@ -157,15 +120,15 @@ contract BorrowFund is
         uint256 supplyForLeveragePositionToken = ((leverageAmountNeeded *
             10000) / ltv) / prices[0];
 
-        gateway.depositETH{value: supplyForLeveragePositionToken}(
-            _aavePool,
+        _gateway.depositETH{value: supplyForLeveragePositionToken}(
+            address(_aavePool),
             address(this),
             0
         );
 
         uint256 amount = 0;
 
-        IAavePool(_aavePool).borrow(borrowToken, amount, 0, 0, address(this));
+        _aavePool.borrow(borrowToken, amount, 0, 0, address(this));
 
         // fix data for position
 
@@ -184,14 +147,12 @@ contract BorrowFund is
         });
     }
 
-    function repay(uint256 positionId) external {
+    function repay(uint256 positionId, uint256 amount) external {
         BorrowData memory data = borrowsData[positionId];
 
-        IAavePool(_aavePool).repay(data.asset, data.amount, 0, address(this));
+        _aavePool.repay(data.asset, data.amount, 0, address(this));
 
-        address aToken = IAavePool(_aavePool)
-            .getReserveData(_weth)
-            .aTokenAddress;
+        address aToken = _aavePool.getReserveData(_weth).aTokenAddress;
 
         uint256 balance = IERC20(aToken).balanceOf(address(this));
 
@@ -199,7 +160,7 @@ contract BorrowFund is
             balance = data.collateral;
         }
 
-        gateway.withdrawETH(_aavePool, balance, address(this));
+        _gateway.withdrawETH(address(_aavePool), balance, address(this));
     }
 
     function checkBorrowed(uint256 positionId) external view returns (bool) {
@@ -216,25 +177,16 @@ contract BorrowFund is
         override
         returns (bytes32[] memory addresses)
     {
-        bytes32[] memory prev = super.resolverAddressesRequired();
-        addresses = new bytes32[](prev.length + 1);
-
-        uint256 i = 0;
-        for (; i < prev.length; i++) {
-            addresses[i] = prev[i];
-        }
-
-        addresses[i] = D4X_CONTRACT;
+        addresses = new bytes32[](2);
+        addresses[0] = D4X_CONTRACT;
+        addresses[1] = FACTORY_CONTRACT;
     }
 
     /**
      * @dev This function is called when rebuildCache or rebuildCaches functions called
      */
     function _resolveAddressesFinish() internal override {
-        super._resolveAddressesFinish();
-
+        _factory = IFactory(requireAndGetAddress(FACTORY_CONTRACT));
         _d4x = ID4X(requireAndGetAddress(D4X_CONTRACT));
     }
-
-    // LINE_SALT_PROD_{1695991730}
 }

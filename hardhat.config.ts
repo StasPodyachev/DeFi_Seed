@@ -31,36 +31,10 @@ tdly.setup({
 const packageJson: any = fs.readJsonSync("package.json")
 process.env.VERSION = packageJson.version
 
-if (
-  process.env.NODE_ENV != "stage" &&
-  process.env.NODE_ENV != "prod" &&
-  process.env.NODE_ENV != "mainnet"
-) {
-  process.env.NODE_ENV = "stage"
-}
-
-console.log(process.env.NODE_ENV)
-
 const config = {
   networks: {
-    polygon: {
-      url: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.POLYGON_ALCHEMY_KEY}`,
-      chainId: 137,
-      accounts: [process.env.DEPLOY_PRIVATE_KEY],
-    },
-    "op-goerli": {
-      url: `https://opt-goerli.g.alchemy.com/v2/${process.env.OP_GOERLI_ALCHEMY_KEY}`,
-      chainId: 420,
-      accounts: [process.env.DEPLOY_PRIVATE_KEY],
-    },
-    mumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.MUMBAI_ALCHEMY_KEY}`,
-      chainId: 80001,
-      accounts: [process.env.DEPLOY_PRIVATE_KEY],
-    },
-    optimism: {
-      url: `https://opt-mainnet.g.alchemy.com/v2/${process.env.OPTIMISM_ALCHEMY_KEY}`,
-      chainId: 10,
+    sepolia: {
+      url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.SEPOLIA_RPC_URL}`,
       accounts: [process.env.DEPLOY_PRIVATE_KEY],
     },
   },
