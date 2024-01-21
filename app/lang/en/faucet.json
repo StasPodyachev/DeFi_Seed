@@ -1,0 +1,21 @@
+{
+  "WAITING": "Faucet starts sending test coins. Wait, please",
+  "SUCCESS": "Congratulations, you have successfully obtained {{symbol}}!",
+  "ADD_TO": "You could add token in",
+  "MORE_TOKENS": "If you require additional tokens, kindly contact us through the chat feature.",
+  "RECEIVED": "It seems like you have already received some tokens",
+  "NO_NATIVE_TOKENS": "No native tokens",
+  "ZERO_ADDRESS": "Transfer to the zero address",
+  "NO_FAUCET_TOKENS": "Transfer amount exceeds balance",
+  "ERROR": "Internal server error",
+
+  "GET_ALL_TOKENS": {
+    "TITLE": "Hey, it seems you have not got any cash to start playing. We can fix it!",
+    "SUCCESS": "Successfully obtained tokens",
+    "RECEIVED": "Already received some tokens",
+    "NO_NATIVE_TOKENS": "No native tokens",
+    "ZERO_ADDRESS": "Transfer to the zero address",
+    "NO_FAUCET_TOKENS": "Transfer amount exceeds balance",
+    "ERROR": "Internal server error"
+  }
+}

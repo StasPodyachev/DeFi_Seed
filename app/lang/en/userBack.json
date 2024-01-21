@@ -1,0 +1,32 @@
+{
+  "GIVE_FEEDBACK": "Give feedback",
+  "BUG_REPORT": {
+    "TITLE": "Report a bug",
+    "SUB_TITLE": "Let us know what's broken",
+    "SUB_TITLE_2": "Tell us what's broken"
+  },
+  "LIVE_CHAT": {
+    "TITLE": "Start live chat"
+  },
+  "FEATURE": {
+    "TITLE": "Feature request",
+    "SUB_TITLE": "Tell us how we can improve"
+  },
+  "FEEDBACK": {
+    "TITLE": "General feedback",
+    "SUB_TITLE": "Give general feedback of this page",
+    "RATE_EXPERIENCE": "How would you rate your experience"
+  },
+  "FORM": {
+    "EMAIL": "Your email address (required)",
+    "TITLE": "Add a title (required)",
+    "BUG_DESC": "Describe the bug in detail",
+    "IDEA_TITLE": "Give your idea a name (required)",
+    "IDEA_DESC": "Tell us more, including the problem it solves",
+    "FEEDBACK": "Leave us your comment (required)"
+  },
+  "SUCCESS": {
+    "TITLE": "Thank you!",
+    "SUB_TITLE": "We really appreciate your feedback."
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "DEPOSIT_WITHDRAW": "Deposit | Withdraw",
+  "OPEN_POSITION": "Open position",
+  "OPEN_NEW_POSITION": "Open new position",
+  "CLOSE_POSITION": "Close position",
+  "APPROVE_TOKEN": "Approve token",
+  "APPROVE_TOKEN_SYMBOL": "Approve {{symbol}}",
+  "APPROVE_TOKEN_VALUE": "My approved tokens <0>{{value}}</0> {{symbol}}",
+  "APPROVE_TOKEN_TOOLTIP": "<0>My approved tokens</0> - amount (in ERC20 tokens) authorized by users for use in the D4X protocol. Smart contracts can access the approved amount to create positions or deposit into the pool, following protocol algorithms.",
+  "CONFIRM": "Confirm",
+  "GO_TO_DASHBOARD": "Go to dashboard",
+  "ADD_TO": "Add to",
+  "FAUCET": "Faucet",
+  "OK": "Ok",
+  "DEPOSIT": "Deposit",
+  "WITHDRAW": "Withdraw",
+  "SEND": "Send",
+  "TAKE_TEST_COINS": "Take test coins",
+  "METAMASK_NOT_FOUND": {
+    "TITLE": "The token has not been added",
+    "SUB_TITLE": "Please use the browser in metamask application to add token"
+  },
+  "WRONG_NETWORK": {
+    "TITLE": "Wrong network",
+    "SUB_TITLE": "Please select the correct network"
+  },
+  "ADD_CHAINS": {
+    "TITLE": "Add chains",
+    "NO_METAMASK": "Please use the browser in metamask application to add chains"
+  },
+  "POWERED_BY": "Powered by",
+  "LIMIT_ERROR": {
+    "TITLE": "Oops!",
+    "SUB_TITLE": "This action can't be done because D4X protocol version 1.4 has limits and is just for testing. Try smaller amounts!"
+  }
+}

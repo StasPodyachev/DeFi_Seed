@@ -1,0 +1,341 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract ERC20",
+        "name": "tokenIn",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ERC20",
+        "name": "tokenOut",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "contract ERC20",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "contract ERC20",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "int24",
+            "name": "tickCurrent",
+            "type": "int24"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtRatioX96",
+            "type": "uint160"
+          },
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "numerator",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "denominator",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct FractionLib.Fraction",
+                "name": "scalar",
+                "type": "tuple"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "baseCurrency",
+                "type": "address"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "quoteCurrency",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct PriceLib.Price",
+            "name": "token0Price",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "numerator",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "denominator",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct FractionLib.Fraction",
+                "name": "scalar",
+                "type": "tuple"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "baseCurrency",
+                "type": "address"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "quoteCurrency",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct PriceLib.Price",
+            "name": "token1Price",
+            "type": "tuple"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fee",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct PoolLib.Pool[]",
+        "name": "_pools",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxHops",
+        "type": "uint256"
+      }
+    ],
+    "name": "computeAllRoutes",
+    "outputs": [
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "internalType": "contract ERC20",
+                "name": "token0",
+                "type": "address"
+              },
+              {
+                "internalType": "contract ERC20",
+                "name": "token1",
+                "type": "address"
+              },
+              {
+                "internalType": "int24",
+                "name": "tickCurrent",
+                "type": "int24"
+              },
+              {
+                "internalType": "uint160",
+                "name": "sqrtRatioX96",
+                "type": "uint160"
+              },
+              {
+                "components": [
+                  {
+                    "components": [
+                      {
+                        "internalType": "uint256",
+                        "name": "numerator",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "denominator",
+                        "type": "uint256"
+                      }
+                    ],
+                    "internalType": "struct FractionLib.Fraction",
+                    "name": "scalar",
+                    "type": "tuple"
+                  },
+                  {
+                    "internalType": "contract IERC20",
+                    "name": "baseCurrency",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "contract IERC20",
+                    "name": "quoteCurrency",
+                    "type": "address"
+                  }
+                ],
+                "internalType": "struct PriceLib.Price",
+                "name": "token0Price",
+                "type": "tuple"
+              },
+              {
+                "components": [
+                  {
+                    "components": [
+                      {
+                        "internalType": "uint256",
+                        "name": "numerator",
+                        "type": "uint256"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "denominator",
+                        "type": "uint256"
+                      }
+                    ],
+                    "internalType": "struct FractionLib.Fraction",
+                    "name": "scalar",
+                    "type": "tuple"
+                  },
+                  {
+                    "internalType": "contract IERC20",
+                    "name": "baseCurrency",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "contract IERC20",
+                    "name": "quoteCurrency",
+                    "type": "address"
+                  }
+                ],
+                "internalType": "struct PriceLib.Price",
+                "name": "token1Price",
+                "type": "tuple"
+              },
+              {
+                "internalType": "uint256",
+                "name": "fee",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct PoolLib.Pool[]",
+            "name": "pools",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "contract ERC20[]",
+            "name": "tokenPath",
+            "type": "address[]"
+          },
+          {
+            "internalType": "contract ERC20",
+            "name": "input",
+            "type": "address"
+          },
+          {
+            "internalType": "contract ERC20",
+            "name": "output",
+            "type": "address"
+          },
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "numerator",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "denominator",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct FractionLib.Fraction",
+                "name": "scalar",
+                "type": "tuple"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "baseCurrency",
+                "type": "address"
+              },
+              {
+                "internalType": "contract IERC20",
+                "name": "quoteCurrency",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct PriceLib.Price",
+            "name": "midPrice",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct RouteLib.Route[]",
+        "name": "routes",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenOut",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountIn",
+        "type": "uint256"
+      }
+    ],
+    "name": "getBestRoute",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountOut",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "setBestPools",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "paths",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "setPath",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

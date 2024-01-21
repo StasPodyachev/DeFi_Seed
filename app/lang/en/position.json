@@ -1,0 +1,49 @@
+{
+  "LIQUIDATED": "Liquidated",
+  "LEVERAGE_ERROR": {
+    "TITLE": "The token pool does not contain sufficient tokens to initiate a position. Kindly reduce your leverage.",
+    "SUB_TITLE": "You could become an investor and add liquidity to the Auto Leverage Pool"
+  },
+  "OPEN": {
+    "TITLE": "Open Position",
+    "TITLE_TOOLTIP": "<0>Opened Position in D4X</0> - an active long (or short) trade by a trader, made using borrowed funds from the ALP. The position remains open and is securely locked in smart contracts until closed by the trader or by the automated liquidation engine.",
+    "LEVERAGE": "Factor of Leverage",
+    "LEVERAGE_TOOLTIP": "<0>Factor of Leverage in D4X</0> - this is how much a trader's position is multiplied by using borrowed money. More leverage means bigger wins or losses.",
+    "TOKEN_SELL_TOOLTIP": "<0>Input amount of Trader's funds in D4X</0>  - the amount of trader's funds required to open a position in D4X depends on the specific trade size and leverage chosen by the trader. After signing the transaction, this amount is directly taken from the trader's address.",
+    "TOKEN_BUY_TOOLTIP": "<0>Planned amount of Position in D4X</0>  - the size of a position that a trader plans to open using leverage, borrowing credit amounts from the ALP (Automatic Leveraging Pool). After swapping, the funds for that position will be securely locked in smart contracts until the trader closes the position or it is automatically liquidated.",
+    "MARKET_RATE": "Market Rate",
+    "MARKET_RATE_TOKENS": "{{tokenSellSymbol}} for 1 {{tokenBuySymbol}}",
+    "MARKET_RATE_TOOLTIP": "<0>Market Rate in D4X</0> - the current price of a cryptocurrency pair on a chosen decentralized exchange. It's used by the smart contract to determine the swapping price when executing a position. The actual Market Rate may differ from the planned rate due to the outcome of the smart contract swap.",
+    "MARGIN_CALL": "Margin Call at <0>{{value}}</0> {{tokenSellSymbol}} for 1 {{tokenBuySymbol}}",
+    "MARGIN_CALL_TOOLTIP": "<0>Margin Call Rate in D4X</0> - the level at which automatic liquidation begins. It represents the minimum margin level required to maintain a leveraged position and prevent potential losses in the ALP."
+  },
+  "CONFIRM": {
+    "TITLE": "You want open new position",
+    "PAIR": "Pair",
+    "PAIR_VALUE": "<0>{{tokenSellSymbol}}vs{{tokenBuySymbol}}</0>",
+    "INVESTED_BY_TOKEN": "Invested in {{tokenSymbol}}",
+    "INVESTED_BY_TOKEN_VALUE": "<0>{{tokenAmount}}</0> {{tokenSymbol}}",
+    "INVESTED_BY_ALP": "Invested by ALP",
+    "INVESTED_BY_ALP_VALUE": "<0>{{amount}}</0> {{tokenSymbol}}",
+    "LEVERAGE": "Factor of Leverage",
+    "LEVERAGE_VALUE": "<0>{{leverage}}</0>",
+    "MARKET_RATE": "Planned Market Rate",
+    "MARKET_RATE_VALUE": "<0>{{marketRate}}</0> {{tokenSellSymbol}} for <0>1</0> {{tokenBuySymbol}}",
+    "POSITION_AMOUNT": "Planned Amount in Position",
+    "POSITION_AMOUNT_VALUE": "<0>{{tokenAmount}}</0> {{tokenSymbol}}",
+    "MARGIN_CALL": "Margin Call rate",
+    "MARGIN_CALL_VALUE": "<0>{{marginCall}}</0> {{tokenSellSymbol}} for <0>1</0> {{tokenBuySymbol}}"
+  },
+  "SUCCESS": {
+    "TITLE": "Transaction success!",
+    "SUB_TITLE": "Your position",
+    "TOKEN_BUY": "Position in {{tokenSymbol}}",
+    "TOKEN_BUY_VALUE": "<0>{{tokenAmount}}</0> {{tokenSymbol}}",
+    "ENTRY_RATE": "Entry rate",
+    "ENTRY_RATE_VALUE": "<0>{{entryRate}}</0> {{tokenSellSymbol}} for <0>1</0> {{tokenBuySymbol}}",
+    "INVESTED_BY_TOKEN": "Invested in {{tokenSymbol}}",
+    "INVESTED_BY_TOKEN_VALUE": "<0>{{tokenAmount}}</0> {{tokenSymbol}}",
+    "INVESTED_BY_ALP": "Invested by ALP",
+    "INVESTED_BY_ALP_VALUE": "<0>{{amount}}</0> {{tokenSymbol}}"
+  }
+}
