@@ -1,0 +1,30 @@
+{
+  "TITLE": "Dashboard",
+  "MY_POOLS": "My pools",
+  "MY_POOLS_NAME": "ALP {{name}}",
+  "NO_CONNECTED_WALLET": "Firstly connect wallet to see the dashboard",
+  "WAITING_POSITIONS": "Waiting for updated positions",
+
+  "POSITIONS": {
+    "TITLE": "My positions",
+    "OPENED": "Open",
+    "CLOSED": "Closed",
+    "INFORMATION": "Information",
+    "ETHERSCAN": "Etherscan",
+    "ACTION": "Action",
+    "ID": "Order ID",
+    "DATE": "Date",
+    "TOKEN_BUY": "Position in {{tokenSymbol}}",
+    "CURRENT_TOKEN_SELL": "Current position in {{tokenSymbol}}",
+    "ENTRY_RATE": "Entry rate",
+    "CURRENT_RATE": "Current rate",
+    "LIQUIDATION_RATE": "Liquidation rate",
+    "INVESTED_TOTAL": "Invested total",
+    "INVESTED_BY_ALP": "Invested by ALP",
+    "INVESTED_BY_TRADER": "Invested by trader",
+    "TX_OPENED": "Transaction open",
+    "TX_CLOSED": "Transaction close",
+    "TX_LIQUIDATED": "Transaction liquidate",
+    "EXCHANGER": "Exchanger"
+  }
+}

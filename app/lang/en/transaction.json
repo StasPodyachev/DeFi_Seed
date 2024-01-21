@@ -1,0 +1,25 @@
+{
+  "OPTIMISM": "View on Optimism",
+  "POLYSCAN": "View on Polyscan",
+  "OPTIMIST_GOERLI_ETHERSCAN": "View on Optimism Goerli Etherscan",
+  "MUMBAI_POLYSCAN": "View on Mumbai Polyscan",
+  "SEPOLIA_ETHERSCAN": "View on Sepolia Etherscan",
+  "WAITING_CONFIRMATION": {
+    "TITLE": "Waiting for confirmation ...",
+    "SUB_TITLE": "Confirm this transaction in your wallet"
+  },
+  "SUBMITTED": {
+    "TITLE": "Your contract is submitted!",
+    "SUB_TITLE": "Once the transaction is completed, your contract will appear on the dashboard"
+  },
+  "ERROR": {
+    "TITLE": "Error",
+    "SUB_TITLE": "Transaction is rejected"
+  },
+  "PENDING": {
+    "OPEN_POSITION": "Open position transaction pending",
+    "CLOSE_POSITION": "Close position transaction pending",
+    "DEPOSIT_POOL": "Pool deposit transaction pending",
+    "WITHDRAW_POOL": "Open withdraw transaction pending"
+  }
+}

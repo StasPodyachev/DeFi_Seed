@@ -1,0 +1,17 @@
+[
+  {
+    "inputs": [],
+    "name": "Infinity",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NegativeInfinity",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "OutOfBounds",
+    "type": "error"
+  }
+]

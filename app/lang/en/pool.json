@@ -1,0 +1,35 @@
+{
+  "TITLE": "Pool",
+  "INFO": {
+    "TITLE": "Pool Info",
+    "TOTAL": "Total Pooled",
+    "TOTAL_VALUE": "<0>{{amount}}</0> {{symbol}}",
+    "AVAILABLE": "Total Ready to Borrowing",
+    "AVAILABLE_VALUE": "<0>{{amount}}</0> {{symbol}}",
+    "BORROWED": "Total Borrowed",
+    "BORROWED_VALUE": "<0>{{amount}}</0> {{symbol}}",
+    "APY": "Est. APY (coming soon)",
+    "APY_VALUE": "<0>{{amount}}</0> %"
+  },
+  "MY_POSITION": {
+    "TITLE": "My Pool Position",
+    "BALANCE": "My Balance",
+    "BALANCE_VALUE": "<0>{{amount}}</0> {{symbol}}",
+    "SHARES": "My Shares",
+    "SHARES_VALUE": "<0>{{amount}}</0> %"
+  },
+  "CONFIRM": {
+    "DEPOSIT": "You want to deposit to the",
+    "WITHDRAW": "You want to withdraw from the"
+  },
+  "SUCCESS": {
+    "TITLE": "Transaction success!",
+    "DEPOSIT": "Your {{symbol}} pool position",
+    "WITHDRAW": "Withdrawn from {{symbol}} pool"
+  },
+  "NAME": "{{symbol}} pool",
+  "TOTAL": "Total",
+  "TOTAL_VALUE": "<0>{{amount}} {{symbol}}</0>",
+  "LOW_AMOUNT": "Sorry, all ALP pools are currently occupied. Please try again at a later time",
+  "LOW_BALANCE_ERROR": "Not enough funds. My balance is {{amount}} {{symbol}}"
+}
